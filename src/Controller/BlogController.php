@@ -144,7 +144,7 @@ const RUST_ID = "252490";
      * @Route("/",name="home" )
      */
     public function home(){
-       
+
         return $this->render('blog/home.html.twig',[
             'title'=>"Yop yop"
             
