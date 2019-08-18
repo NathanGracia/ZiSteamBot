@@ -129,6 +129,7 @@
       <path value="$PROJECT_DIR$/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/vendor/cron/cron" />
       <path value="$PROJECT_DIR$/vendor/cron/cron-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/apache-pack" />
     </include_path>
   </component>
   <component name="ProjectId" id="1PYYXvXRFJD6Nh1dURwU9uD7oC2" />
@@ -163,7 +164,7 @@
       <workItem from="1566052541456" duration="13239000" />
       <workItem from="1566081030822" duration="6673000" />
       <workItem from="1566124448183" duration="8375000" />
-      <workItem from="1566164562907" duration="1310000" />
+      <workItem from="1566164562907" duration="1575000" />
     </task>
     <servers />
   </component>
