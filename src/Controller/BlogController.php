@@ -144,7 +144,7 @@ const RUST_ID = "252490";
      * @Route("/",name="home" )
      */
     public function home(){
-        var_dump("alo");die;
+       
         return $this->render('blog/home.html.twig',[
             'title'=>"Yop yop"
             
@@ -153,7 +153,7 @@ const RUST_ID = "252490";
     public function requestApi(String $request){
         $url = "https://steamcommunity.com";
         $fullUrl = $url.$request;
-var_dump($fullUrl);die;
+
         return file_get_contents($fullUrl);
     }
     public function getItemsFromApi(String $requestUrl,ItemRepository $repo,ObjectManager $manager,PriceHistoryRepository $repoPriceHistory){
