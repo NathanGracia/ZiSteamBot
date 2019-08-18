@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+    <center>
+    <table >
+        <tr>
+    {% set indice = 0 %}
+    {% for item in items %}
+
+    {% if indice > 6 %}
+            {% set indice = 0 %}
+        </tr><tr>
+    {%  endif %}
+            {% set indice = indice + 1 %}
+        <td >
+             <div class="card text-white bg-primary mb-3" style="width: 265px; height: 550px;">
+                <div style="height: 180px;" class="card-header"><h3>{{item.name}}</h3></div>
+                    <div class="card-body" style="height: 180px;"  >
+                        <img src ="{{item.image}}">
+                        <h4 class="card-title">{{item.actualPrice}} $</h4>
+                        <p class="card-text">Date de creation {{item.createdAt | date('d/m/y') }} <br>
+                        Dernière evolution :
+
+                            {% if item.lastIncrease is defined and item.lastIncrease is not null %}
+
+                                {% if item.lastIncrease >= 7 %}
+                                    <span class="badge badge-pill badge-success">{{ item.lastIncrease }} %</span>
+                                {%  endif %}
+
+                                {% if item.lastIncrease < 7  and item.lastIncrease >= 3 %}
+                                    <span class="badge badge-pill badge-warning">{{ item.lastIncrease }} %</span>
+                                {%  endif %}
+                                {% if item.lastIncrease < 3  and item.lastIncrease >=0 %}
+                                    <span class="badge badge-pill badge-secondary">{{ item.lastIncrease }} %</span>
+                                {%  endif %}
+                                {% if item.lastIncrease < 0   %}
+                                    <span class="badge badge-pill badge-danger">{{ item.lastIncrease }} %</span>
+                                {%  endif %}
+                            {% else %}
+                                Non definis
+                            {% endif %}
+
+
+
+                        </p>
+                          <a  href="{{ path('itemDetail',{'id': item.id}) }}" ><button type="button" class="btn btn-info">Plus Info</button></a>
+                    </div>
+
+                </div>
+
+            </div>
+         </td>
+    {% endfor %}
+
+        </tr>
+    </table>
+    </center>
+{% endblock %}

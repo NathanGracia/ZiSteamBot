@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Steam Bot !{% endblock %}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/cyborg/bootstrap.min.css" >
+        <link rel="icon" type="image/gif" href="https://svn.apache.org/repos/asf/lucene.net/branches/3.0.3/branding/logo/lucene-net-icon-512x512.png" />
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">Steam Bot</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'nameASC'}) }}">Items par nom [ascendant]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'nameDESC'}) }}">Items par nom [descendant]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'priceASC'}) }}">Items par prix [ascendant]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'priceDESC'}) }}">Items par prix [descendant]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'lastIncrease'}) }}">Items par taux de croissance</a>
+                    </li>
+                        </ul>
+                <a class="nav-link" href="{{ path('newRequest') }}">
+                    <button type="button" class="btn btn-info">Nouvelle requête</button>
+                </a>
+            </div>
+            
+        </nav>
+        <div clas="container">
+           {% block body %}    {% endblock %}
+        </div>
+ 
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

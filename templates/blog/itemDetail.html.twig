@@ -1,0 +1,97 @@
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <table>
+        <tr>
+            <td>
+                <div class="jumbotron" style="width: 950px; height: 700px;">
+                    <h1 class="display-3">{{item.name}}</h1>
+                    <img src ="{{item.image}}">
+                    <h3 class="lead">{{item.actualPrice}} $</h3>
+                    <hr class="my-4">
+                    <p>Date de creation {{item.createdAt | date('d/m/y') }}</p>
+                    <p>Dernière evolution :
+
+                        {% if item.lastIncrease is defined and item.lastIncrease is not null %}
+                            {% if item.lastIncrease >= 7 %}
+                            <span class="badge badge-pill badge-success">{{ item.lastIncrease }} %</span>
+                            {%  endif %}
+
+                            {% if item.lastIncrease < 7  and item.lastIncrease >= 3 %}
+                                <span class="badge badge-pill badge-warning">{{ item.lastIncrease }} %</span>
+                            {%  endif %}
+                            {% if item.lastIncrease < 3  and item.lastIncrease >=0 %}
+                                <span class="badge badge-pill badge-secondary">{{ item.lastIncrease }} %</span>
+                            {%  endif %}
+                            {% if item.lastIncrease < 0   %}
+                                <span class="badge badge-pill badge-danger">{{ item.lastIncrease }} %</span>
+                            {%  endif %}
+                        {% else %}
+                            Non definis
+                        {% endif %}
+
+                    </p>
+
+                    {% if item.volume is defined and item.volume is not null %}
+                        <p>
+                            Volume : {{ item.volume }}
+                        </p>
+                    {% endif %}
+
+                    {% if item.medianPrice is defined and item.medianPrice is not null %}
+                        <p>
+                            Prix median : {{ item.medianPrice }}
+                        </p>
+                    {% endif %}
+
+                    <a href="{{ item.steamLink }}" target="_blank">
+                        <button type="button" class="btn btn-secondary">Voir sur Steam</button>
+                    </a>
+
+                    <a href="{{ path('newDetailedRequest', {'idItem': item.id}) }}" >
+                        <button type="button" class="btn btn-info">Informations supplementaires</button>
+                    </a>
+
+
+
+                </div>
+            </td>
+            <td><div class="jumbotron" style="width: 960px; height: 700px;">
+                    <div id="div_chart"></div>
+
+                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                    <script type="text/javascript">
+                        {{ gc_draw(lineChart, 'div_chart') }}
+                    </script>
+                    <div id="div_piechart"></div>
+                    <div id="div_histogram"></div>
+
+                </div>
+
+
+
+            </td>
+        </tr>
+    </table>
+<table class="table table-hover">
+  <thead>
+  <tr class="table-light">
+      <td><h5><strong>Date de la requête</strong></h5></td>
+      <td ><h5><strong>Prix de l'item</strong></h5></td>
+      <td><h5><strong>Column content</strong></h5></td>
+      <td><h5><strong>Column content</strong></h5></td>
+    </tr>
+   {% for price in prices %}
+    <tr class="table-dark">
+      <td >{{price.date | date('d/m/y - H:i') }}</td>
+      <td ><strong>{{price.price}} $</strong></td>
+      <td>{{price.id}}</td>
+      <td>Column content</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table> 
+
+    
+
+{% endblock %}
