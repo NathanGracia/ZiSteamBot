@@ -17,23 +17,35 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('items', {'orderBy': 'nameASC'}) }}">Items par nom [ascendant]</a>
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'nameASC'}) }}">Trier par nom ▲</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('items', {'orderBy': 'nameDESC'}) }}">Items par nom [descendant]</a>
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'nameDESC'}) }}">Trier par nom ▼</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('items', {'orderBy': 'priceASC'}) }}">Items par prix [ascendant]</a>
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'priceASC'}) }}">Trier par prix ▲</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('items', {'orderBy': 'priceDESC'}) }}">Items par prix [descendant]</a>
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'priceDESC'}) }}">Trier par prix ▼</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('items', {'orderBy': 'lastIncrease'}) }}">Items par taux de croissance</a>
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'lastIncreaseASC'}) }}">Trier par dernière évolution ▲</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'lastIncreaseDESC'}) }}">Trier par dernière évolution ▼</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'growthToMedianASC'}) }}">Trier par croissance VS médiane ▲</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('items', {'orderBy': 'growthToMedianDESC'}) }}">Trier par croissance VS médiane ▼</a>
                     </li>
                         </ul>
                 <a class="nav-link" href="{{ path('newRequest') }}">
                     <button type="button" class="btn btn-info">Nouvelle requête</button>
+                </a>
+                <a class="nav-link" href="{{ path('inventory') }}">
+                    <button type="button" class="btn btn-secondary">Inventaire</button>
                 </a>
             </div>
             

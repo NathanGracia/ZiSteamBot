@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+
+    <center>
+        <div style="margin: 60px;" class="jumbotron">
+            <div class="card-header"><h1>L'inventaire du boss DeusKiwi</h1></div>
+            <br>
+            <table >
+            <tr>
+                {% set indice = 0 %}
+                {% for item in items %}
+
+                {% if indice > 4 %}
+                {% set indice = 0 %}
+            </tr><tr>
+                {%  endif %}
+                {% set indice = indice + 1 %}
+
+                <td>
+                    <div class="card text-white bg-primary mb-3" style="width: 265px; height: 580px;">
+                        <div style="height: 180px;" class="card-header"><h3>{{item.name}}</h3></div>
+                        <div class="card-body" style="height: 180px;"  >
+                            <img src ="{{item.image}}">
+                            <h4 class="card-title">{{item.actualPrice}} $</h4>
+                            <p class="card-text">Date de creation {{item.createdAt | date('d/m/y') }} <br>
+                                Dernière evolution :
+
+                                {% if item.lastIncrease is defined and item.lastIncrease is not null %}
+
+                                    {% if item.lastIncrease >= 7 %}
+                                        <span class="badge badge-pill badge-success">{{ item.lastIncrease }} %</span>
+                                    {%  endif %}
+
+                                    {% if item.lastIncrease < 7  and item.lastIncrease >= 3 %}
+                                        <span class="badge badge-pill badge-warning">{{ item.lastIncrease }} %</span>
+                                    {%  endif %}
+                                    {% if item.lastIncrease < 3  and item.lastIncrease >=0 %}
+                                        <span class="badge badge-pill badge-secondary">{{ item.lastIncrease }} %</span>
+                                    {%  endif %}
+                                    {% if item.lastIncrease < 0   %}
+                                        <span class="badge badge-pill badge-danger">{{ item.lastIncrease }} %</span>
+                                    {%  endif %}
+                                {% else %}
+                                    Non definis
+                                {% endif %}
+
+
+
+
+
+                                {% if item.growthToMedian is defined and item.growthToMedian is not null %}
+
+                                    {% if item.growthToMedian >= 7 %}
+                                        Croissance vs médiane :   <span class="badge badge-pill badge-success">{{ item.growthToMedian }} %</span>
+                                    {%  endif %}
+
+                                    {% if item.growthToMedian < 7  and item.growthToMedian >= 3 %}
+                                        Croissance vs médiane :   <span class="badge badge-pill badge-warning">{{ item.growthToMedian }} %</span>
+                                    {%  endif %}
+                                    {% if item.growthToMedian < 3  and item.growthToMedian >=0 %}
+                                        Croissance vs médiane :   <span class="badge badge-pill badge-secondary">{{ item.growthToMedian }} %</span>
+                                    {%  endif %}
+                                    {% if item.growthToMedian < 0   %}
+                                        Croissance vs médiane :   <span class="badge badge-pill badge-danger">{{ item.growthToMedian }} %</span>
+                                    {%  endif %}
+                                {% else %}
+                                    <br><br>
+                                {% endif %}
+
+
+
+                            </p>
+                            <a  href="{{ path('itemDetail',{'id': item.id}) }}" ><button type="button" class="btn btn-info">Plus Info</button></a>
+                        </div>
+
+                    </div>
+
+                    </div>
+                </td>
+
+                {% endfor %}
+
+            </tr>
+        </table>
+            </div>
+    </center>
+{% endblock %}

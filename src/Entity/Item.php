@@ -39,7 +39,7 @@ class Item
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $lastIncrease;
+    private $lastIncrease ;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -49,12 +49,21 @@ class Item
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $medianPrice;
+    private $medianPrice ;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $volume;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $growthToMedian ;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $score ;
 
     public function getId(): ?int
     {
@@ -111,11 +120,13 @@ class Item
 
     public function getLastIncrease(): ?int
     {
+
         return $this->lastIncrease;
     }
 
     public function setLastIncrease(?int $lastIncrease): self
     {
+
         $this->lastIncrease = $lastIncrease;
 
         return $this;
@@ -155,5 +166,37 @@ class Item
         $this->volume = $volume;
 
         return $this;
+    }
+
+    public function getGrowthToMedian(): ?int
+    {
+        return $this->growthToMedian;
+    }
+
+    public function setGrowthToMedian(?int $growthToMedian): self
+    {
+        $this->growthToMedian = $growthToMedian;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param mixed $score
+     */
+    public function setScore($score): void
+    {
+        $this->score = $score;
+    }
+
+    public  function generateScore(){
+    
     }
 }

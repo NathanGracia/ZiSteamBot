@@ -137,7 +137,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -165,6 +165,13 @@
       <workItem from="1566081030822" duration="6673000" />
       <workItem from="1566124448183" duration="8375000" />
       <workItem from="1566164562907" duration="1575000" />
+      <workItem from="1566234394445" duration="1309000" />
+      <workItem from="1566247841114" duration="6088000" />
+      <workItem from="1566319482919" duration="1217000" />
+      <workItem from="1566327872472" duration="3691000" />
+      <workItem from="1566410021465" duration="13000" />
+      <workItem from="1566425209190" duration="3599000" />
+      <workItem from="1566590626339" duration="9632000" />
     </task>
     <servers />
   </component>
@@ -176,7 +183,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

@@ -32,6 +32,27 @@
 
                     </p>
 
+<p>
+                    {% if item.growthToMedian is defined and item.growthToMedian is not null %}
+
+                        {% if item.growthToMedian >= 7 %}
+                            Croissance vs médiane :   <span class="badge badge-pill badge-success">{{ item.growthToMedian }} %</span>
+                        {%  endif %}
+
+                        {% if item.growthToMedian < 7  and item.growthToMedian >= 3 %}
+                            Croissance vs médiane :   <span class="badge badge-pill badge-warning">{{ item.growthToMedian }} %</span>
+                        {%  endif %}
+                        {% if item.growthToMedian < 3  and item.growthToMedian >=0 %}
+                            Croissance vs médiane :   <span class="badge badge-pill badge-secondary">{{ item.growthToMedian }} %</span>
+                        {%  endif %}
+                        {% if item.growthToMedian < 0   %}
+                            Croissance vs médiane :   <span class="badge badge-pill badge-danger">{{ item.growthToMedian }} %</span>
+                        {%  endif %}
+                    {% else %}
+                        <br><br>
+                    {% endif %}
+
+</p>
                     {% if item.volume is defined and item.volume is not null %}
                         <p>
                             Volume : {{ item.volume }}
