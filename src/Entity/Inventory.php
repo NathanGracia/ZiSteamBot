@@ -1,53 +1,61 @@
 <?php
 
-
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\InventoryRepository")
+ */
 class Inventory
 {
-
-/** @var array $items */
-    protected $items = [];
-
-    /** @var float $totalValue */
-    private $totalValue;
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
     /**
-     * @return array
+     * @ORM\Column(type="array", nullable=true)
      */
-    public function getItems(): array
+    private $items = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getItems(): ?array
     {
         return $this->items;
     }
 
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items): void
+    public function setItems(?array $items): self
     {
         $this->items = $items;
+
+        return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getTotalValue(): float
+    public function addItem(InventoryItem $item){
+        array_push($this->items, $item);
+    }
+
+    public function getUsername(): ?string
     {
-        return $this->totalValue;
+        return $this->username;
     }
 
-    /**
-     * @param float $totalValue
-     */
-    public function setTotalValue(float $totalValue): void
+    public function setUsername(string $username): self
     {
-        $this->totalValue = $totalValue;
+        $this->username = $username;
+
+        return $this;
     }
-
-    public function addItem(Item $item){
-        array_push($this->items,  $item);
-    }
-
-
 }

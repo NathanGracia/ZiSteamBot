@@ -7,7 +7,7 @@
                 <div class="jumbotron" style="width: 950px; height: 700px;">
                     <h1 class="display-3">{{item.name}}</h1>
                     <img src ="{{item.image}}">
-                    <h3 class="lead">{{item.actualPrice}} $</h3>
+                    <h3 class="lead">{{item.actualPrice}} €</h3>
                     <hr class="my-4">
                     <p>Date de creation {{item.createdAt | date('d/m/y') }}</p>
                     <p>Dernière evolution :
@@ -61,7 +61,7 @@
 
                     {% if item.medianPrice is defined and item.medianPrice is not null %}
                         <p>
-                            Prix median : {{ item.medianPrice }}
+                            Prix median : {{ item.medianPrice }} €
                         </p>
                     {% endif %}
 
@@ -105,7 +105,7 @@
    {% for price in prices %}
     <tr class="table-dark">
       <td >{{price.date | date('d/m/y - H:i') }}</td>
-      <td ><strong>{{price.price}} $</strong></td>
+      <td ><strong>{{price.price}} €</strong></td>
       <td>{{price.id}}</td>
       <td>Column content</td>
     </tr>

@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Inventory;
+use App\Repository\InventoryItemRepository;
+use App\Repository\InventoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\Histogram;
@@ -17,6 +20,7 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\LineChart;
 class BlogController extends AbstractController
 {
     const RUST_ID = "252490";
+    public $usd_to_eur = 1.11;
 
     /**
      * @Route("/items/{orderBy}", name="items")
@@ -75,6 +79,7 @@ class BlogController extends AbstractController
      */
     public function newRequest(ItemRepository $repo, ObjectManager $manager, PriceHistoryRepository $priceHistoryRepository)
     {
+        $this->refreshUsdToEur();
         $start = 0;
         while ($start < 1900) {
             $url = "/market/search/render?norender=1&q=&currency=3&category_252490_itemclass%5B%5D=any&appid=252490&count=100&start=" . $start;
@@ -103,7 +108,7 @@ class BlogController extends AbstractController
         $response = json_decode(file_get_contents($url), true);
         if (isset($response["median_price"])) {
             if (!empty($response["median_price"])){
-                $median = str_replace("$", "", $response["median_price"]);
+                $median = $this->usdToEur(str_replace("$", "", $response["median_price"]));
             }else{
                 $median = "0";
             }
@@ -132,7 +137,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/item/{id}", name="itemDetail")
      */
-    public function itemDetail($id, ItemRepository $repoItem, ObjectManager $manager, PriceHistoryRepository $repoPriceHistory)
+    public function itemDetail($id, ItemRepository $repoItem, ObjectManager $manager, PriceHistoryRepository $repoPriceHistory, InventoryRepository $inventoryRepository)
     {
 
         $item = $repoItem->find($id);
@@ -162,7 +167,16 @@ class BlogController extends AbstractController
         $lineChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
         $lineChart->getOptions()->getTitleTextStyle()->setFontSize(20);
 
+        //check if item is in inventory
+        /** @var Inventory $inventory */
+        $inventory = $inventoryRepository->findOneByUsername("DeusKiwi");
+        if (!empty($inventory)){
+           $items = $inventory->getItems();
 
+           if (in_array($item, $items)){
+               var_dump("aaa");die;
+           }
+        }
         return $this->render('blog/itemDetail.html.twig', [
             'item' => $item,
             'prices' => $prices,
@@ -196,6 +210,7 @@ class BlogController extends AbstractController
     public function getItemsFromApi(String $requestUrl, ItemRepository $repo, ObjectManager $manager, PriceHistoryRepository $repoPriceHistory)
     {
         //envoie de la requête
+
         $response = json_decode($this->requestApi($requestUrl), true);
         $resultItems = $response["results"];
 
@@ -208,7 +223,7 @@ class BlogController extends AbstractController
                 $newItem = new Item();
                 $newItem->setName($item["name"])
                     ->setImage("https://steamcommunity-a.akamaihd.net/economy/image/" . $item["asset_description"]["icon_url"])
-                    ->setActualPrice($item["sell_price"] / 100)
+                    ->setActualPrice($this->usdToEur($item["sell_price"] / 100))
                     ->setCreatedAt(new \DateTime())
                     ->setSteamLink($this->generateSteamLink($item["name"]));
                 //on envoie en bdd pour recuperer un id item (pour le price history)
@@ -218,7 +233,7 @@ class BlogController extends AbstractController
                 $lastItem = $repo->findOneByName($item["name"]);
                 //création du price history
                 $newPriceHistory = new PriceHistory();
-                $newPriceHistory->setPrice($lastItem->getActualPrice())
+                $newPriceHistory->setPrice($this->usdToEur($lastItem->getActualPrice()))
                     ->setIdItem($lastItem->getId())
                     ->setDate(new \DateTime());
 
@@ -227,18 +242,18 @@ class BlogController extends AbstractController
                 //l'item existe deja
                 /** @var Item $existingItem */
                 $existingItem->setImage("https://steamcommunity-a.akamaihd.net/economy/image/" . $item["asset_description"]["icon_url"])
-                    ->setActualPrice($item["sell_price"] / 100);
+                    ->setActualPrice($this->usdToEur($item["sell_price"] / 100));
                 $newPriceHistory = new PriceHistory();
                 //création du price history si le prix n'est pas le meme
                 $oldPrice = $repoPriceHistory->findOneByIdItem($existingItem->getId(), array("date" => "DESC"))->getPrice();
 
-                if ($oldPrice != $item["sell_price"] / 100) {
-                    $newPriceHistory->setPrice($item["sell_price"] / 100)
+                if ($oldPrice != $this->usdToEur($item["sell_price"] / 100)) {
+                    $newPriceHistory->setPrice($this->usdToEur($item["sell_price"] / 100))
                         ->setIdItem($existingItem->getId())
                         ->setDate(new \DateTime());
                     //increase rate for item
-                    if(!empty($this->calculateLastIncrease($oldPrice, $item["sell_price"] / 100))){
-                        $existingItem->setLastIncrease($this->calculateLastIncrease($oldPrice, $item["sell_price"] / 100));
+                    if(!empty($this->calculateLastIncrease($oldPrice, $this->usdToEur($item["sell_price"] / 100)))){
+                        $existingItem->setLastIncrease($this->calculateLastIncrease($oldPrice, $this->usdToEur($item["sell_price"] / 100)));
                     }else{
                         $existingItem->setLastIncrease(0);
                     }
@@ -295,5 +310,33 @@ class BlogController extends AbstractController
 
         $steamLink = $preUrl . $nameForUrl;
         return $steamLink;
+    }
+    public function usdToEur(float $usd){
+        $usdToEur = $this->getUsdToEur();
+        $eur = $usd/ $usdToEur;
+        $eur =round($eur, 2);
+            return($eur);
+    }
+
+    /**
+     * @return float
+     */
+    public function getUsdToEur(): float
+    {
+        return $this->usd_to_eur;
+    }
+
+    /**
+     * @param float $usd_to_eur
+     */
+    public function setUsdToEur(float $usd_to_eur): void
+    {
+        $this->usd_to_eur = $usd_to_eur;
+    }
+    public function refreshUsdToEur(){
+        $result_api = json_decode(file_get_contents("https://api.exchangeratesapi.io/latest"),true);
+        $usdToEur = $result_api["rates"]["USD"];
+        $this->setUsdToEur($usdToEur);
+        return $usdToEur;
     }
 }

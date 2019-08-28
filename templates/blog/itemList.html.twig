@@ -3,6 +3,54 @@
 {% block title %}Yop !{% endblock %}
 
 {% block body %}
+    <center>
+    <table>
+        <tr>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'nameASC'}) }}">
+                    <button type="button" class="btn btn-outline-info">Trier par nom ▲</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'nameDESC'}) }}">
+                    <button type="button" class="btn btn-outline-warning">Trier par nom ▼</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'priceASC'}) }}">
+                    <button type="button" class="btn btn-outline-info">Trier par prix ▲</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'priceDESC'}) }}">
+                    <button type="button" class="btn btn-outline-success">Trier par prix ▼</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'lastIncreaseASC'}) }}">
+                    <button type="button" class="btn btn-outline-primary">Trier par dernière évolution ▲</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'lastIncreaseDESC'}) }}">
+                    <button type="button" class="btn btn-outline-success">Trier par dernière évolution ▼</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'growthToMedianASC'}) }}">
+                    <button type="button" class="btn btn-outline-info">Trier par croissance VS médiane ▲</button>
+                </a>
+            </td>
+            <td>
+                <a class="nav-link" href="{{ path('items', {'orderBy': 'growthToMedianDESC'}) }}">
+                    <button type="button" class="btn btn-outline-success">Trier par croissance VS médiane ▼</button>
+                </a>
+            </td>
+        </tr>
+    </table>
+    </center>
+
+
 
     <center>
     <table >
@@ -20,7 +68,7 @@
                 <div style="height: 180px;" class="card-header"><h3>{{item.name}}</h3></div>
                     <div class="card-body" style="height: 180px;"  >
                         <img src ="{{item.image}}">
-                        <h4 class="card-title">{{item.actualPrice}} $</h4>
+                        <h4 class="card-title">{{item.actualPrice}} €</h4>
                         <p class="card-text">Date de creation {{item.createdAt | date('d/m/y') }} <br>
                         Dernière evolution :
 
